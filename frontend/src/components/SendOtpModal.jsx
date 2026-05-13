@@ -22,28 +22,29 @@ function SendOtpModal({ show }) {
     }
   };
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="flex flex-col justify-center items-center"
-    >
-      <h1 className="mb-4 text-center text-gray-800 font-bold text-2xl">
+    <form onSubmit={handleSubmit} className="flex flex-col gap-4 ">
+      <h1 className="md:mt-5 tracking-wide text-gray-800 font-bold text-xl">
         LOGIN OR SIGNUP
       </h1>
-
-      <input
-        className="border mb-2 text-base text-gray-800 font-xs bg-none border-gray-400 rounded-xs px-2 py-2"
-        type="tel"
-        name="phoneNumber"
-        value={phoneNumber}
-        placeholder=""
-        onChange={(e) => setPhoneNumber(e.target.value)}
-      />
-      <button
-        type="submit"
-        className="uppercase cursor-pointer text-gray-100 w-full py-2 bg-gray-900"
-      >
-        send otp
-      </button>
+      <div className="flex flex-col max-w-42">
+        <input
+          className="
+          border outline-none focus:outline-none
+          focus:ring-0
+          focus:border-gray-400 text-xs placeholder:text-sm rounded-md mb-1 text-gray-800 font-xs bg-none border-gray-400 px-2 py-2"
+          type="tel"
+          name="phoneNumber"
+          value={phoneNumber}
+          placeholder="Enter phone number"
+          onChange={(e) => setPhoneNumber(e.target.value)}
+        />
+        <button
+          type="submit"
+          className="uppercase max-w-20 text-xs rounded-md cursor-pointer text-gray-100 w-full py-2 bg-gray-900"
+        >
+          send otp
+        </button>
+      </div>
     </form>
   );
 }

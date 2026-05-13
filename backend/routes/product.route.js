@@ -3,6 +3,7 @@ import addProductHandler from "../controllers/addProductHandler.js";
 import multer from "multer";
 import getProductsHAndler from "../controllers/getProductsHAndler.js";
 import getProductById from "../controllers/getProductById.js";
+import { adminOnly, protect } from "../middleware/protect.js";
 const router = express.Router();
 
 const upload = multer({ dest: "uploads/" });

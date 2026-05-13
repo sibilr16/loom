@@ -1,12 +1,30 @@
 import { useState } from "react";
+import { useAdminLoginMutation } from "../../services/auth";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 function AdminLogin() {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
+  const [adminLogin] = useAdminLoginMutation();
 
-  const handleSubmit = (e) => {
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(email, password);
+    try {
+      const res = await adminLogin({
+        email: email,
+        password: password,
+      }).unwrap();
+
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+
+    toast.success("Login Success");
+    navigate("/pro");
   };
 
   return (

@@ -5,10 +5,12 @@ import completeProfileHandler from "../controllers/completeProfileHandler.js";
 import { protect } from "../middleware/protect.js";
 import saveAddressHandler from "../controllers/saveAddressHandler.js";
 import logoutUser from "../utils/logoutUser.js";
+import adminLoginHandler from "../controllers/adminLoginHandler.js";
 
 const router = express.Router();
 
 router.post("/send-otp", sendOtpHandler);
+router.post("/admin-login", adminLoginHandler);
 router.post("/verify-otp", verifyOtpHandler);
 router.post("/complete-profile", protect, completeProfileHandler);
 router.post("/save-address", protect, saveAddressHandler);

@@ -7,6 +7,13 @@ export const authApi = createApi({
     credentials: "include",
   }),
   endpoints: (builder) => ({
+    adminLogin: builder.mutation({
+      query: (data) => ({
+        url: "/admin-login",
+        method: "POST",
+        body: data,
+      }),
+    }),
     sendPhoneNumber: builder.mutation({
       query: (data) => ({
         url: "/send-otp",
@@ -48,6 +55,7 @@ export const authApi = createApi({
 });
 
 export const {
+  useAdminLoginMutation,
   useCompleteProfileMutation,
   useSendPhoneNumberMutation,
   useSendOtpMutation,

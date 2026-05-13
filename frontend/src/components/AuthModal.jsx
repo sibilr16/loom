@@ -3,6 +3,8 @@ import OtpModal from "./OtpModal";
 import SendOtpModal from "./sendOtpModal";
 import { closeAuth } from "../features/uiSlice";
 import { useDispatch } from "react-redux";
+import { VscChromeClose } from "react-icons/vsc";
+import { IoCloseCircleSharp } from "react-icons/io5";
 
 function AuthModal() {
   const [showOtp, setShowOtp] = useState(false);
@@ -22,13 +24,14 @@ function AuthModal() {
         <div className="bg-gray-50 relative rounded-md p-8 max-w-2xl flex flex-col md:flex-row gap-4  ">
           <button
             onClick={() => dispatch(closeAuth())}
-            className="absolute top-0 right-2 cursor-pointer text-gray-900"
+            className="absolute  top-2 right-2 cursor-pointer text-gray-900"
           >
-            X
+            {/* <VscChromeClose /> */}
+            <IoCloseCircleSharp size={20} />
           </button>
           <div className="max-w-xs h-48 ">
             <img
-              src="/1.webp"
+              src="/login-user.png"
               alt="image"
               className="w-full h-full object-cover"
             />
