@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const paymentApi = createApi({
   reducerPath: "paymentApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:3000/api/payment",
+    baseUrl: "https://loom-h6m8.onrender.com/api/payment",
     credentials: "include",
   }),
   endpoints: (builder) => ({
