@@ -1,6 +1,6 @@
 import { useState } from "react";
-import OtpModal from "./OtpModal";
-import SendOtpModal from "./sendOtpModal";
+import OtpModal from "./OtpModal.jsx";
+import SendOtpModal from "./SendOtpModal.jsx";
 import { closeAuth } from "../features/uiSlice";
 import { useDispatch } from "react-redux";
 import { VscChromeClose } from "react-icons/vsc";
