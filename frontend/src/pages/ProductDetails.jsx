@@ -50,7 +50,7 @@ function ProductDetails() {
                   {/* Thumbnail */}
                   <div className="  mb-3 overflow-hidden rounded-md">
                     <img
-                      src={`https://loom-eight-theta.vercel.app/uploads/${product.thumbnail}`}
+                      src={`https://loom-h6m8.onrender.com/uploads/${product.thumbnail}`}
                       alt=""
                     />
                   </div>
@@ -59,7 +59,7 @@ function ProductDetails() {
                     {product.gallery.map((img) => (
                       <div key={img}>
                         <img
-                          src={`https://loom-eight-theta.vercel.app/uploads/${img}`}
+                          src={`https://loom-h6m8.onrender.com/uploads/${img}`}
                         />
                       </div>
                     ))}

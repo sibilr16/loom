@@ -55,7 +55,7 @@ function Products() {
                   <div className="h-80 w-56 mb-3 overflow-hidden rounded-md">
                     <img
                       className="w-full h-full object-cover"
-                      src={`https://loom-eight-theta.vercel.app/uploads/${product.thumbnail}`}
+                      src={`https://loom-h6m8.onrender.com/uploads/${product.thumbnail}`}
                       alt={product.productName}
                     />
                   </div>
