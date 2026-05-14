@@ -3,11 +3,17 @@ import { openAuth } from "../features/uiSlice";
 import { useGetCartQuery } from "../services/cart";
 import CartCard from "./CartCard";
 import { useNavigate } from "react-router-dom";
+import { IoCloseCircleSharp } from "react-icons/io5";
 
 function CartDrawer({ open, onClose }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { data: cart } = useGetCartQuery();
+  const handleLogin = (e) => {
+    e.preventDefault();
+    dispatch(openAuth());
+    onClose();
+  };
   // const user = false;
   const totalAmount = cart?.items?.reduce(
     (total, item) => total + item.quantity * item.priceAtAddedTime,
@@ -32,9 +38,9 @@ function CartDrawer({ open, onClose }) {
       >
         {/* Header */}
         <div className="flex items-center justify-between p-3 border-b border-zinc-300 shrink-0">
-          <p className="uppercase font-semibold">Shopping Cart</p>
-          <button className="text-2xl" onClick={onClose}>
-            x
+          <p className="uppercase text-sm font-semibold">Shopping Cart</p>
+          <button className="text-2xl cursor-pointer" onClick={onClose}>
+            <IoCloseCircleSharp size={18} />
           </button>
         </div>
         {/* Body */}
@@ -79,8 +85,8 @@ function CartDrawer({ open, onClose }) {
             </p>
 
             <button
-              onClick={() => dispatch(openAuth())}
-              className="bg-gray-900 text-white text-xs uppercase tracking-wider px-6 py-2 rounded-md hover:bg-black transition"
+              onClick={handleLogin}
+              className="bg-gray-900 text-white text-sm tracking-wider cursor-pointer px-6 py-2 rounded-md hover:bg-black transition"
             >
               Login
             </button>
