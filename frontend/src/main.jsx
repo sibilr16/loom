@@ -16,7 +16,7 @@ import Profile from "./pages/Profile.jsx";
 import ProductTable from "./pages/admin/ProductTable.jsx";
 import Checkout from "./pages/Checkout.jsx";
 import ProfileProtection from "./components/ProfileProtection.jsx";
-import AdminLogin from "./pages/admin/adminLogin.jsx";
+import AdminLogin from "./pages/admin/AdminLogin.jsx";
 import AdminLayout from "./layouts/AdminLayout.jsx";
 
 createRoot(document.getElementById("root")).render(
