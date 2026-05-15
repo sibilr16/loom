@@ -52,7 +52,7 @@ function CartCard({ item }) {
       <div className="h-28 w-20 mb-3 overflow-hidden">
         <img
           className="w-full h-full object-cover "
-          src={`http://localhost:3000/uploads/${item.product.thumbnail}`}
+          src={`https://loom-h6m8.onrender.com/uploads/${item.product.thumbnail}`}
           alt=""
         />
       </div>
