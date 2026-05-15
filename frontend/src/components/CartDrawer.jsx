@@ -20,6 +20,11 @@ function CartDrawer({ open, onClose }) {
     0,
   );
   const user = useSelector((state) => state.auth.user);
+  const handleConfirmOrder = (e) => {
+    e.preventDefault();
+    navigate("/checkout");
+    onClose();
+  };
   return (
     <div>
       {/* Backdrop */}
@@ -71,8 +76,8 @@ function CartDrawer({ open, onClose }) {
                 </div>
               </div>
               <button
-                onClick={() => navigate("/checkout")}
-                className="uppercase bg-gray-950 rounded-lg text-xs w-full p-2 font-semibold text-gray-50 tracking-widest"
+                onClick={handleConfirmOrder}
+                className="uppercase cursor-pointer bg-gray-950 rounded-lg text-xs w-full p-2 font-semibold text-gray-50 tracking-widest"
               >
                 Confirm order
               </button>

@@ -23,7 +23,6 @@ createRoot(document.getElementById("root")).render(
   <StrictMode>
     <Provider store={store}>
       <Toaster position="top-right" reverseOrder={false} />
-
       <BrowserRouter>
         <Routes>
           <Route path="/admin/login" element={<AdminLogin />} />
@@ -31,21 +30,15 @@ createRoot(document.getElementById("root")).render(
             <Route index path="/" element={<Products />} />
             <Route path="/product/:category/:id" element={<ProductDetails />} />
             <Route path="/profile" element={<Profile />} />
-            {/* <Route path="/pro" element={<ProductTable />} /> */}
             <Route path="/checkout" element={<Checkout />} />
-            {/* <Route element={<ProfileProtection />}> */}
             <Route
               path="/complete-profile"
               element={<CompleteProfileModal />}
             />
-            {/* </Route> */}
           </Route>
           <Route element={<AdminLayout />}>
             <Route path="/pro" element={<ProductTable />} />
           </Route>
-
-          {/* Admin routes */}
-          <Route element={<ProtectedRoute />}></Route>
         </Routes>
       </BrowserRouter>
     </Provider>

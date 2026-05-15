@@ -23,7 +23,7 @@ function Navbar() {
   };
 
   return (
-    <div className="flex shadow-2xl justify-between md:px-20 border border-l-0 border-r-0 border-t-0 border-b-gray-400 p-3 ">
+    <div className="flex justify-between md:px-20 border border-l-0 border-r-0 border-t-0 border-b-gray-400 p-3 ">
       <Link to="/" className="font-bold text-2xl text-gray-800">
         LOOM
       </Link>

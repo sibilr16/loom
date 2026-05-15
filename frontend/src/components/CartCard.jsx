@@ -86,8 +86,9 @@ function CartCard({ item }) {
             </button>
           </div>
           <Link className="flex items-center gap-1">
-            <CiEdit />
-            <p className="text-xs lowercase">Edit Order</p>
+            <div></div>
+            {/* <CiEdit /> */}
+            {/* <p className="text-xs lowercase">Edit Order</p> */}
           </Link>
         </div>
       </div>
