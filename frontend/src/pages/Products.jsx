@@ -19,14 +19,14 @@ function Products() {
       : products.filter((product) => product.category === selectedCategory);
 
   return (
-    <div>
+    <div className="">
       <Carousel />
       {isLoading ? (
         <p>Loading...</p>
       ) : (
-        <div className="h-screen p-5 max-w-7xl mx-auto">
+        <div className="h-screen md:p-5 max-w-7xl mx-auto">
           {/* Tabs */}
-          <div className="flex my-8 items-center justify-center gap-5">
+          <div className="flex md:my-8 mt-6 mb-8 items-center justify-center gap-2 md:gap-5">
             {categories.map((category) => (
               <button
                 className={`uppercase ${selectedCategory === category ? "bg-gray-800 text-gray-50" : ""}  tracking-wide hover:bg-gray-900 transition-all duration-200 hover:text-gray-50 bg-gray-50 border text-sm cursor-pointer px-4 font-semibold rounded-lg py-1 border-gray-800`}
@@ -43,7 +43,7 @@ function Products() {
               products.map((product) => <div>{product.category}</div>)}
           </div> */}
           {/* <h1 className="font-bold text-2xl text-gray-800">Products</h1> */}
-          <div className="p-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+          <div className="md:p-5 grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 md:gap-6 gap-1">
             {" "}
             {products &&
               filteredProducts.map((product) => (
@@ -52,7 +52,7 @@ function Products() {
                   className="flex flex-col items-center justify-center"
                   key={product._id}
                 >
-                  <div className="h-80 w-56 mb-3 overflow-hidden rounded-md">
+                  <div className="md:h-80 md:w-56 mb-3 overflow-hidden rounded-md">
                     <img
                       className="w-full h-full object-cover"
                       src={`https://loom-h6m8.onrender.com/uploads/${product.thumbnail}`}

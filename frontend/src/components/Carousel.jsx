@@ -13,7 +13,7 @@ const slides = [
 function Carousel() {
   return (
     <Swiper
-      className=""
+      className="mt-2"
       modules={[Autoplay]}
       spaceBetween={10}
       slidesPerView={2.5} // 👈 THIS is your requirement
@@ -21,6 +21,20 @@ function Carousel() {
       autoplay={{
         delay: 2500,
         disableOnInteraction: false,
+      }}
+      breakpoints={{
+        0: {
+          slidesPerView: 1,
+        },
+        640: {
+          slidesPerView: 2,
+        },
+        768: {
+          slidesPerView: 2.5,
+        },
+        1024: {
+          slidesPerView: 3,
+        },
       }}
       speed={2000} // smooth transition
     >

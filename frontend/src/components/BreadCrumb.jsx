@@ -13,7 +13,9 @@ function BreadCrumb({ product }) {
       <span>
         <MdKeyboardDoubleArrowRight />
       </span>
-      <Link to={`/?category=${category}`}>{category}</Link>
+      <Link className="capitalize" to={`/?category=${category}`}>
+        {category}
+      </Link>
       <span>
         <MdKeyboardDoubleArrowRight />
       </span>
