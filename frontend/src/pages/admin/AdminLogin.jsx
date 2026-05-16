@@ -24,7 +24,7 @@ function AdminLogin() {
     }
 
     toast.success("Login Success");
-    navigate("/pro");
+    navigate("/dashboard");
   };
 
   return (

@@ -3,7 +3,11 @@ import mongoose from "mongoose";
 const userSchema = new mongoose.Schema(
   {
     username: String,
-    phoneNumber: String,
+    phoneNumber: {
+      type: String,
+      // required: true,
+      unique: true,
+    },
     email: String,
     isProfileCompleted: {
       type: Boolean,

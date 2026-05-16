@@ -12,26 +12,29 @@ async function saveAddressHandler(req, res) {
       state,
       pinCode,
       country,
+      saveInfo,
     } = req.body;
 
-    const user = await User.findByIdAndUpdate(
-      userId,
-      {
-        $push: {
-          addresses: {
-            firstName,
-            lastName,
-            address,
-            apartment,
-            city,
-            state,
-            pinCode,
-            country,
+    if (saveInfo) {
+      const user = await User.findByIdAndUpdate(
+        userId,
+        {
+          $push: {
+            addresses: {
+              firstName,
+              lastName,
+              address,
+              apartment,
+              city,
+              state,
+              pinCode,
+              country,
+            },
           },
         },
-      },
-      { new: true },
-    );
+        { new: true },
+      );
+    }
 
     res.json(user.addresses);
   } catch (error) {

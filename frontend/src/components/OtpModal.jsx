@@ -49,7 +49,9 @@ function OtpModal() {
         dispatch(closeAuth());
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
+      console.error(error.code);
+      console.error(error.message);
     }
   };
   return (

@@ -52,7 +52,7 @@ function CartDrawer({ open, onClose }) {
         {user ? (
           <>
             <div className="flex-1 overflow-y-auto">
-              {cart?.items && (
+              {cart?.items?.length > 0 ? (
                 <ul>
                   {cart?.items.map((item) => (
                     <li key={`${item.product._id}-${item.size}`}>
@@ -60,28 +60,36 @@ function CartDrawer({ open, onClose }) {
                     </li>
                   ))}
                 </ul>
+              ) : (
+                <div className="flex flex-col h-full items-center justify-center text-center px-6">
+                  <p className="text-sm text-zinc-500 mb-4">
+                    Your cart is currently empty
+                  </p>
+                </div>
               )}
             </div>
             {/* Footer */}
-            <div className="shadow-gray-950 shadow-2xl p-3 border-t-gray-950">
-              <div className="flex justify-between mb-3">
-                <span className="text-sm font-normal uppercase">
-                  Subtotal :
-                </span>
-                <div className="flex flex-col items-end">
-                  <span className="text-sm font-normal">{`RS. ${totalAmount}`}</span>
-                  <span className="text-[8.2px] font-normal tracking-wide">
-                    tax and shipping included
+            {cart?.items?.length > 0 && (
+              <div className="shadow-gray-950 shadow-2xl p-3 border-t-gray-950">
+                <div className="flex justify-between mb-3">
+                  <span className="text-sm font-normal uppercase">
+                    Subtotal :
                   </span>
+                  <div className="flex flex-col items-end">
+                    <span className="text-sm font-normal">{`RS. ${totalAmount}`}</span>
+                    <span className="text-[8.2px] font-normal tracking-wide">
+                      tax and shipping included
+                    </span>
+                  </div>
                 </div>
+                <button
+                  onClick={handleConfirmOrder}
+                  className="uppercase cursor-pointer bg-gray-950 rounded-lg text-xs w-full p-2 font-semibold text-gray-50 tracking-widest"
+                >
+                  Confirm order
+                </button>
               </div>
-              <button
-                onClick={handleConfirmOrder}
-                className="uppercase cursor-pointer bg-gray-950 rounded-lg text-xs w-full p-2 font-semibold text-gray-50 tracking-widest"
-              >
-                Confirm order
-              </button>
-            </div>
+            )}
           </>
         ) : (
           <div className="flex flex-1 flex-col items-center justify-center text-center px-6">

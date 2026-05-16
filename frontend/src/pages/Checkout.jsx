@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 
 function Checkout() {
   const user = useSelector((state) => state?.auth?.user);
+  console.log(user?.addresses);
   console.log(user);
   const [formData, setFormData] = useState({
     country: "India",
@@ -26,6 +27,7 @@ function Checkout() {
     phoneNumber: user?.phoneNumber || "",
     saveInfo: false,
   });
+  console.log(formData);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -52,7 +54,8 @@ function Checkout() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await saveAddress(formData);
+      const addRessess = await saveAddress(formData);
+      console.log(addRessess);
       const data = await makePayment({ amount: cartTotal }).unwrap();
 
       const loaded = await loadRazorpayScript();
@@ -207,7 +210,7 @@ function Checkout() {
                     placeholder="Phone Number"
                     // defaultValue={user?.phoneNumber}
                   />
-                  <label className="text-xs flex gap-2">
+                  <label className="text-xs cursor-pointer flex gap-2">
                     <input
                       type="checkbox"
                       name="saveInfo"
@@ -221,7 +224,7 @@ function Checkout() {
 
               <button
                 type="submit"
-                className="bg-gray-950 w-full p-2 text-gray-50 rounded-md"
+                className="bg-gray-950 text-sm cursor-pointer w-full p-2 text-gray-50 rounded-md"
               >
                 Pay Now
               </button>

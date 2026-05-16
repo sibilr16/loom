@@ -18,11 +18,12 @@ export default async function verifyOtpHandler(req, res) {
       return res.status(400).json({ message: "Invalid OTP" });
     }
     console.log("OTP approved");
-    let user = await User.findOne({ phone: formattedPhone });
+    // console.log(formattedPhone);
+    let user = await User.findOne({ phoneNumber: formattedPhone });
 
     if (!user) {
-      let user = new User({
-        phoneNumber: req.body.phoneNumber,
+      user = new User({
+        phoneNumber: formattedPhone,
       });
       const data = await user.save();
       const userId = data._id;

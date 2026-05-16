@@ -2,6 +2,7 @@ import { Link, useSearchParams } from "react-router-dom";
 import { useGetProductsQuery } from "../services/product";
 import { useState } from "react";
 import Carousel from "../components/Carousel";
+import Loader from "../components/Loader";
 
 const categories = ["all", "shirts", "jeans"];
 
@@ -22,7 +23,9 @@ function Products() {
     <div className="">
       <Carousel />
       {isLoading ? (
-        <p>Loading...</p>
+        <div className="h-screen flex mt-20 justify-center">
+          <Loader size="xl" />
+        </div>
       ) : (
         <div className="h-screen md:p-5 max-w-7xl mx-auto">
           {/* Tabs */}

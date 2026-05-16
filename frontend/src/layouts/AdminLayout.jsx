@@ -30,7 +30,10 @@ function AdminLayout() {
       >
         <div className="p-4 font-bold text-lg">Admin</div>
         <nav className="flex flex-col gap-2 p-2">
-          <NavLink to="/pro">Product Table</NavLink>
+          <NavLink to="/dashboard">Dashboard</NavLink>
+          <NavLink to="/pro">Users</NavLink>
+          <NavLink to="/pro">Products</NavLink>
+          <NavLink to="/pro">Logout</NavLink>
         </nav>
       </aside>
 
