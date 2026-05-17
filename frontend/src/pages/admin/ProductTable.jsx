@@ -31,7 +31,7 @@ function ProductTable() {
       cell: ({ row }) => (
         <div className="flex items-center justify-center">
           <img
-            src={`http://localhost:3000/uploads/${row.original.thumbnail}`}
+            src={`https://loom-h6m8.onrender.com/uploads/${row.original.thumbnail}`}
             alt={row.original.productName}
             className="w-12 h-12 object-cover rounded"
           />
