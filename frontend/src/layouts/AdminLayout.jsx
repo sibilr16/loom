@@ -26,7 +26,7 @@ function AdminLayout() {
 
       {/* Sidebar */}
       <aside
-        className={`fixed bg-green-800 z-50 top-0 transition-all duration-700 left-0 h-full text-gray-800 shadow-lg
+        className={`fixed z-50 top-0 transition-all duration-700 left-0 h-full text-gray-800 shadow-lg
         
                 ${isMobileOpen ? "translate-x-0" : "-translate-x-full"}
           md:translate-x-0
