@@ -2,6 +2,7 @@ import Product from "../models/product.schema";
 
 const updateProductHandler = async (req, res) => {
   try {
+    console.log("reached update handler");
     const { id } = req.params;
     const { productName, category, price, description, variants } = req.body;
 
