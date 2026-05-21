@@ -1,4 +1,4 @@
-import Product from "../models/product.schema";
+import Product from "../models/product.schema.js";
 
 const updateProductHandler = async (req, res) => {
   try {
