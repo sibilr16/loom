@@ -1,5 +1,8 @@
 import { useState } from "react";
-import { useAddProductMutation } from "../services/product";
+import {
+  useAddProductMutation,
+  useUpdateProductMutation,
+} from "../services/product";
 import { X, ImagePlus, Plus, Minus, Trash2 } from "lucide-react";
 
 function AddProduct({ onClose, initialData = null }) {
@@ -30,7 +33,7 @@ function AddProduct({ onClose, initialData = null }) {
   const [category, setCategory] = useState(initialData?.category ?? "shirts");
 
   const [addProduct] = useAddProductMutation();
-  // const [updateProduct] = useUpdateProductMutation();
+  const [updateProduct] = useUpdateProductMutation();
 
   const sizes = ["S", "M", "L", "XL", "2XL"];
 

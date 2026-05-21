@@ -8,6 +8,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import {
+  useDeleteProductMutation,
   useGetProductsQuery,
   // useDeleteProductMutation,
 } from "../../services/product";
@@ -31,13 +32,13 @@ function ProductTable() {
   const [globalFilter, setGlobalFilter] = useState("");
 
   const { data: products = [] } = useGetProductsQuery();
-  // const [deleteProduct] = useDeleteProductMutation();
+  const [deleteProduct] = useDeleteProductMutation();
 
   const handleEdit = (product) => setEditProduct(product);
 
   const handleDelete = async (id) => {
     if (!window.confirm("Delete this product?")) return;
-    // await deleteProduct(id);
+    await deleteProduct(id);
   };
 
   const formattedProducts = useMemo(() => {
@@ -310,14 +311,9 @@ function ProductTable() {
           <div className="relative z-10 w-full max-w-sm bg-white h-full shadow-2xl overflow-y-auto flex flex-col">
             {/* Drawer header */}
             <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100 shrink-0">
-              <div>
-                <h2 className="font-semibold text-sm text-gray-900">
-                  Product Detail
-                </h2>
-                <p className="text-xs text-gray-400 mt-0.5 capitalize">
-                  {selectedProduct.category}
-                </p>
-              </div>
+              <h2 className="font-semibold text-sm text-gray-900">
+                Product Detail
+              </h2>
               <button
                 onClick={() => setSelectedProduct(null)}
                 className="p-1.5 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors cursor-pointer"
@@ -326,103 +322,115 @@ function ProductTable() {
               </button>
             </div>
 
-            {/* Thumbnail */}
-            <img
-              src={`https://loom-h6m8.onrender.com/uploads/${selectedProduct.thumbnail}`}
-              alt={selectedProduct.productName}
-              className="w-full h-52 object-cover"
-            />
-
-            {/* Gallery strip */}
-            {selectedProduct.gallery?.length > 0 && (
-              <div className="flex gap-2 px-5 py-3 border-b border-gray-100 overflow-x-auto">
-                {selectedProduct.gallery.map((img, i) => (
-                  <img
-                    key={i}
-                    src={`https://loom-h6m8.onrender.com/uploads/${img}`}
-                    alt=""
-                    className="w-12 h-12 object-cover rounded-lg border border-gray-200 shrink-0"
-                  />
-                ))}
-              </div>
-            )}
-
-            <div className="p-5 flex flex-col gap-5 flex-1">
-              {/* Name */}
-              <div>
-                <p className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-1">
-                  Product Name
-                </p>
-                <p className="text-sm font-semibold text-gray-900">
-                  {selectedProduct.productName}
-                </p>
+            {/* Scrollable content */}
+            <div className="flex-1 overflow-y-auto">
+              {/* Thumbnail with padding so it doesn't bleed */}
+              <div className="p-5 pb-3">
+                <img
+                  src={`https://loom-h6m8.onrender.com/uploads/${selectedProduct.thumbnail}`}
+                  alt={selectedProduct.productName}
+                  className="w-full h-48 object-cover rounded-xl border border-gray-100"
+                />
               </div>
 
-              {/* Price + Stock */}
-              <div className="grid grid-cols-2 gap-4">
-                <div className="bg-gray-50 rounded-xl p-3">
-                  <p className="text-xs text-gray-400 mb-1">Price</p>
-                  <p className="text-sm font-semibold text-gray-900">
-                    ₹{selectedProduct.price}
-                  </p>
-                </div>
-                <div className="bg-gray-50 rounded-xl p-3">
-                  <p className="text-xs text-gray-400 mb-1">Stock</p>
-                  <StockBadge stock={selectedProduct.totalStock} />
-                </div>
-              </div>
-
-              {/* Description */}
-              {selectedProduct.description && (
-                <div>
-                  <p className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-1">
-                    Description
-                  </p>
-                  <p className="text-xs text-gray-600 leading-relaxed">
-                    {selectedProduct.description}
-                  </p>
+              {/* Gallery strip */}
+              {selectedProduct.gallery?.length > 0 && (
+                <div className="flex gap-2 px-5 pb-3 overflow-x-auto">
+                  {selectedProduct.gallery.map((img, i) => (
+                    <img
+                      key={i}
+                      src={`https://loom-h6m8.onrender.com/uploads/${img}`}
+                      alt=""
+                      className="w-12 h-12 object-cover rounded-lg border border-gray-200 shrink-0"
+                    />
+                  ))}
                 </div>
               )}
 
-              {/* Variants */}
-              {selectedProduct.variants?.length > 0 && (
+              <div className="px-5 pb-5 flex flex-col gap-4">
+                {/* Name + category */}
                 <div>
-                  <p className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-2">
-                    Variants
+                  <p className="font-semibold text-sm text-gray-900 leading-snug">
+                    {selectedProduct.productName}
                   </p>
-                  <div className="grid grid-cols-3 gap-2">
-                    {selectedProduct.variants.map((variant, i) => (
-                      <div
-                        key={i}
-                        className="flex flex-col items-center justify-center border border-gray-200 rounded-xl py-2.5 bg-gray-50"
-                      >
-                        <span className="text-xs font-semibold text-gray-800">
-                          {variant.size ?? variant.name ?? `#${i + 1}`}
-                        </span>
-                        <span className="text-xs text-gray-400 mt-0.5">
-                          Qty {variant.count}
-                        </span>
-                      </div>
-                    ))}
+                  <p className="text-xs text-gray-400 mt-0.5 capitalize">
+                    {selectedProduct.category}
+                  </p>
+                </div>
+
+                <div className="h-px bg-gray-100" />
+
+                {/* Price + Stock — inline, matches table row style */}
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-xs text-gray-400 mb-0.5">Price</p>
+                    <p className="text-sm font-semibold text-gray-900">
+                      ₹{selectedProduct.price}
+                    </p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-xs text-gray-400 mb-0.5">Stock</p>
+                    <StockBadge stock={selectedProduct.totalStock} />
                   </div>
                 </div>
-              )}
+
+                {/* Description */}
+                {selectedProduct.description && (
+                  <>
+                    <div className="h-px bg-gray-100" />
+                    <div>
+                      <p className="text-xs text-gray-400 mb-1.5">
+                        Description
+                      </p>
+                      <p className="text-xs text-gray-600 leading-relaxed">
+                        {selectedProduct.description}
+                      </p>
+                    </div>
+                  </>
+                )}
+
+                {/* Variants */}
+                {selectedProduct.variants?.length > 0 && (
+                  <>
+                    <div className="h-px bg-gray-100" />
+                    <div>
+                      <p className="text-xs text-gray-400 mb-2">Variants</p>
+                      <div className="flex flex-wrap gap-2">
+                        {selectedProduct.variants.map((variant, i) => (
+                          <div
+                            key={i}
+                            className="flex items-center gap-2 border border-gray-200 rounded-lg px-3 py-1.5 bg-white"
+                          >
+                            <span className="text-xs font-medium text-gray-800">
+                              {variant.size ?? variant.name ?? `#${i + 1}`}
+                            </span>
+                            <span className="text-xs text-gray-300">·</span>
+                            <span className="text-xs text-gray-400">
+                              Qty {variant.count}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </>
+                )}
+              </div>
             </div>
 
-            {/* Drawer footer actions */}
+            {/* Footer — matches toolbar button style */}
             <div className="px-5 py-4 border-t border-gray-100 shrink-0 flex gap-2">
               <button
                 onClick={() => {
                   setSelectedProduct(null);
                   handleEdit(selectedProduct);
                 }}
-                className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl border border-gray-200 text-xs font-medium text-gray-700 hover:bg-gray-50 transition-colors cursor-pointer"
+                className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg border border-gray-200 text-xs font-medium text-gray-700 hover:bg-gray-50 transition-colors cursor-pointer"
               >
                 <Pencil size={12} /> Edit
               </button>
               <button
                 onClick={() => handleDelete(selectedProduct._id)}
-                className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-red-50 text-xs font-medium text-red-500 hover:bg-red-100 transition-colors cursor-pointer"
+                className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg bg-red-50 text-xs font-medium text-red-500 hover:bg-red-100 transition-colors cursor-pointer"
               >
                 <Trash2 size={12} /> Delete
               </button>

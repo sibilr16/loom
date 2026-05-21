@@ -4,6 +4,8 @@ import multer from "multer";
 import getProductsHAndler from "../controllers/getProductsHAndler.js";
 import getProductById from "../controllers/getProductById.js";
 import { adminOnly, protect } from "../middleware/protect.js";
+import deleteProductHandler from "../controllers/deleteProductHandler.js";
+import updateProductHandler from "../controllers/updateProductHandler.js";
 const router = express.Router();
 
 const upload = multer({ dest: "uploads/" });
@@ -19,5 +21,16 @@ router.post(
 
 router.get("/get-products", getProductsHAndler);
 router.get("/get-product/:id", getProductById);
+
+router.put(
+  "/update-product/:id",
+  upload.fields([
+    { name: "thumbnail", maxCount: 1 },
+    { name: "gallery", maxCount: 8 },
+  ]),
+  updateProductHandler,
+);
+
+router.delete("/delete-product/:id", deleteProductHandler);
 
 export default router;
