@@ -18,7 +18,6 @@ router.post("/save-address", protect, saveAddressHandler);
 router.get("/me", protect, (req, res) => {
   res.json(req.user);
 });
-router.get("/get-users", getUsersHandler);
 
 router.post("/logout", logoutUser);
 
