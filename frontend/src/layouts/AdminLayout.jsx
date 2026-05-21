@@ -8,86 +8,119 @@ import {
 } from "react-icons/md";
 import { LuLogOut, LuUsers } from "react-icons/lu";
 import { BsBagDash } from "react-icons/bs";
+import { IoClose } from "react-icons/io5";
+import { ChevronsLeft, ChevronsRight } from "lucide-react";
+
+const navLinkClass = ({ isActive }) =>
+  `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors duration-150 ${
+    isActive
+      ? "bg-gray-100 text-gray-900 font-medium"
+      : "text-gray-800 hover:bg-gray-100 hover:text-gray-950"
+  }`;
 
 function AdminLayout() {
-  const [isOpen, setIsOpen] = useState(true); // desktop sidebar
-  const [isMobileOpen, setIsMobileOpen] = useState(false); // mobile drawer
+  const [isOpen, setIsOpen] = useState(true);
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
 
   return (
     <div className="flex h-screen bg-gray-50">
-      {/* Mobile Overlay */}
+      {/* Mobile overlay */}
       {isMobileOpen && (
         <div
-          className="fixed inset-0  bg-black/50 z-40 md:hidden"
+          className="fixed inset-0 bg-black/50 z-40 md:hidden"
           onClick={() => setIsMobileOpen(false)}
         />
       )}
-      {/* ///////////////////////////////// */}
 
       {/* Sidebar */}
       <aside
-        className={`fixed z-50 top-0 transition-all duration-700 left-0 h-full text-gray-800 shadow-lg
-        
-                ${isMobileOpen ? "translate-x-0" : "-translate-x-full"}
+        className={`fixed z-50 top-0 left-0 h-full bg-white shadow-sm border-r border-gray-200 transition-all duration-300
+          ${isMobileOpen ? "translate-x-0" : "-translate-x-full"}
           md:translate-x-0
-        
-        ${isOpen ? "w-64" : "w-16"}
-        
+          ${isOpen ? "w-56" : "w-14"}
         `}
       >
-        <div className="p-4 hidden md:flex font-bold text-lg">Admin</div>
-        <nav className="flex flex-col gap-2 p-2">
-          <NavLink to="/dashboard">
-            <MdOutlineDashboard />
-            <span className={`md:${!isOpen ? "hidden" : "flex"}`}>
-              Dashboard
+        {/* Logo */}
+        <div className="h-13 flex items-center px-4 border-b border-gray-100">
+          {isOpen && (
+            <span className="font-semibold text-sm tracking-widest uppercase text-gray-700">
+              Admin
             </span>
+          )}
+        </div>
+
+        {/* Mobile close button */}
+        <button
+          onClick={() => setIsMobileOpen(false)}
+          className="md:hidden absolute top-3 right-3 p-1 rounded text-gray-400 hover:text-gray-600"
+          aria-label="Close menu"
+        >
+          <IoClose size={18} />
+        </button>
+
+        {/* Nav */}
+        <nav className="flex flex-col gap-1 p-2 pt-3">
+          <NavLink to="/dashboard" className={navLinkClass}>
+            <MdOutlineDashboard size={18} className="shrink-0" />
+            {isOpen && <span>Dashboard</span>}
           </NavLink>
-          <NavLink to="/pro">
-            <LuUsers />
-            <span className={`md:${!isOpen ? "hidden" : "flex"}`}>Users</span>
+          <NavLink to="/user-list" className={navLinkClass}>
+            <LuUsers size={18} className="shrink-0" />
+            {isOpen && <span>Users</span>}
           </NavLink>
-          <NavLink to="/pro">
-            <MdOutlineProductionQuantityLimits />
-            <span className={`md:${!isOpen ? "hidden" : "flex"}`}>
-              Products
-            </span>
+          <NavLink to="/product-list" className={navLinkClass}>
+            <MdOutlineProductionQuantityLimits size={18} className="shrink-0" />
+            {isOpen && <span>Products</span>}
           </NavLink>
-          <NavLink to="/pro">
-            <BsBagDash />
-            <span className={`md:${!isOpen ? "hidden" : "flex"}`}>Orders</span>
+          <NavLink to="/order-list" className={navLinkClass}>
+            <BsBagDash size={18} className="shrink-0" />
+            {isOpen && <span>Orders</span>}
           </NavLink>
-          <NavLink to="/pro">
-            <LuLogOut />
-            <span className={`md:${!isOpen ? "hidden" : "flex"}`}>Logout</span>
+
+          <div className="my-1 border-t border-gray-100" />
+
+          <NavLink to="/logout" className={navLinkClass}>
+            <LuLogOut size={18} className="shrink-0 text-red-700" />
+            {isOpen && <span className="text-red-700">Logout</span>}
           </NavLink>
         </nav>
       </aside>
 
       {/* Main area */}
       <div
-        className={`flex flex-col flex-1 ml:${isOpen ? "64" : "16"} transition-all duration-700`}
-        style={{ marginLeft: isOpen ? "16rem" : "4rem" }}
+        className={`flex flex-col flex-1 transition-all duration-300 ${isOpen ? "md:ml-56" : "md:ml-14"}`}
       >
-        <header>
-          <button
-            onClick={() => setIsMobileOpen(true)}
-            className="md:hidden px-3 py-1 bg-gray-200 rounded"
-          >
-            <GiHamburgerMenu />
-          </button>
-          {/* Desktop Toggle */}
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="hidden md:block px-3 py-1 bg-gray-200 rounded"
-          >
-            <FaArrowRightArrowLeft />
-          </button>
-          <h1 className="font-semibold">Admin panel</h1>
+        {/* Header */}
+        <header className="h-13 flex items-center justify-between px-4 bg-white border-b border-gray-200 shrink-0">
+          <div className="flex items-center gap-3">
+            {/* Mobile hamburger */}
+            <button
+              onClick={() => setIsMobileOpen(true)}
+              className="md:hidden p-1.5 rounded-md bg-gray-100 text-gray-600 hover:bg-gray-200"
+              aria-label="Open menu"
+            >
+              <GiHamburgerMenu size={16} />
+            </button>
+
+            {/* Desktop toggle */}
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="hidden cursor-pointer md:flex p-1.5 rounded-md bg-gray-100 text-gray-600 hover:bg-gray-200"
+              aria-label="Toggle sidebar"
+            >
+              {isOpen ? (
+                <ChevronsLeft size={16} />
+              ) : (
+                <ChevronsRight size={16} />
+              )}
+            </button>
+
+            <h1 className="font-semibold text-sm text-gray-700">Admin Panel</h1>
+          </div>
         </header>
 
-        {/* Page Content */}
-        <main className="p-4 overflow-y-auto flex-1">
+        {/* Page content */}
+        <main className="flex-1 overflow-y-auto p-6">
           <Outlet />
         </main>
       </div>
