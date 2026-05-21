@@ -19,8 +19,8 @@ import ProfileProtection from "./components/ProfileProtection.jsx";
 import AdminLogin from "./pages/admin/AdminLogin.jsx";
 import AdminLayout from "./layouts/AdminLayout.jsx";
 import AdminDashboard from "./pages/admin/AdminDashboard.jsx";
-import UsersList from "./pages/admin/UsersList.jsx";
 import OrderList from "./pages/admin/OrderList.jsx";
+import UserTable from "./pages/admin/UserTable.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -42,7 +42,7 @@ createRoot(document.getElementById("root")).render(
           <Route element={<AdminLayout />}>
             <Route path="/dashboard" element={<AdminDashboard />} />
             <Route path="/product-list" element={<ProductTable />} />
-            <Route path="/user-list" element={<UsersList />} />
+            <Route path="/user-list" element={<UserTable />} />
             <Route path="/order-list" element={<OrderList />} />
           </Route>
         </Routes>
