@@ -1,4 +1,4 @@
-import User from "../models/user.schema.js";
+import User from "../models/auth.schema.js";
 
 const getUsersHandler = async (req, res) => {
   try {
