@@ -9,7 +9,7 @@ import {
 import { LuLogOut, LuUsers } from "react-icons/lu";
 import { BsBagDash } from "react-icons/bs";
 import { IoClose } from "react-icons/io5";
-import { ChevronsLeft, ChevronsRight } from "lucide-react";
+import { ChevronsLeft, ChevronsRight, ShoppingBag } from "lucide-react";
 
 const navLinkClass = ({ isActive }) =>
   `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors duration-150 ${
@@ -72,8 +72,8 @@ function AdminLayout() {
             <MdOutlineProductionQuantityLimits size={18} className="shrink-0" />
             {isOpen && <span>Products</span>}
           </NavLink>
-          <NavLink to="/order-list" className={navLinkClass}>
-            <BsBagDash size={18} className="shrink-0" />
+          <NavLink to="/admin/orders" className={navLinkClass}>
+            <ShoppingBag size={18} className="shrink-0" />
             {isOpen && <span>Orders</span>}
           </NavLink>
 

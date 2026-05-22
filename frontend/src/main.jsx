@@ -22,6 +22,8 @@ import AdminDashboard from "./pages/admin/AdminDashboard.jsx";
 import OrderList from "./pages/admin/OrderList.jsx";
 import UserTable from "./pages/admin/UserTable.jsx";
 import Dashboard from "./pages/admin/Dashboard.jsx";
+import MyOrders from "./pages/MyOrders.jsx";
+import OrderTable from "./pages/admin/OrderTable.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -34,6 +36,7 @@ createRoot(document.getElementById("root")).render(
             <Route index path="/" element={<Products />} />
             <Route path="/product/:category/:id" element={<ProductDetails />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/orders" element={<MyOrders />} />
             <Route path="/checkout" element={<Checkout />} />
             <Route
               path="/complete-profile"
@@ -44,7 +47,7 @@ createRoot(document.getElementById("root")).render(
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/product-list" element={<ProductTable />} />
             <Route path="/user-list" element={<UserTable />} />
-            <Route path="/order-list" element={<OrderList />} />
+            <Route path="/admin/orders" element={<OrderTable />} />
           </Route>
         </Routes>
       </BrowserRouter>
