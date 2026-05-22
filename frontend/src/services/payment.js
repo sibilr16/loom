@@ -6,6 +6,7 @@ export const paymentApi = createApi({
     baseUrl: "https://loom-h6m8.onrender.com/api/payment",
     credentials: "include",
   }),
+  tagTypes: ["Cart", "Order"],
   endpoints: (builder) => ({
     makePayment: builder.mutation({
       query: (data) => ({
@@ -20,8 +21,31 @@ export const paymentApi = createApi({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["Cart", "Order"],
+    }),
+    getMyOrders: builder.query({
+      query: () => "/my-orders",
+      providesTags: ["Order"],
+    }),
+    getAllOrders: builder.query({
+      query: () => "/all-orders",
+      providesTags: ["Order"],
+    }),
+    updateOrderStatus: builder.mutation({
+      query: ({ id, status }) => ({
+        url: `/update-status/${id}`,
+        method: "PATCH",
+        body: { status },
+      }),
+      invalidatesTags: ["Order"],
     }),
   }),
 });
 
-export const { useMakePaymentMutation, useVerifyPaymentMutation } = paymentApi;
+export const {
+  useMakePaymentMutation,
+  useVerifyPaymentMutation,
+  useGetMyOrdersQuery,
+  useGetAllOrdersQuery,
+  useUpdateOrderStatusMutation,
+} = paymentApi;

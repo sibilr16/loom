@@ -21,6 +21,7 @@ import AdminLayout from "./layouts/AdminLayout.jsx";
 import AdminDashboard from "./pages/admin/AdminDashboard.jsx";
 import OrderList from "./pages/admin/OrderList.jsx";
 import UserTable from "./pages/admin/UserTable.jsx";
+import Dashboard from "./pages/admin/Dashboard.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -40,7 +41,7 @@ createRoot(document.getElementById("root")).render(
             />
           </Route>
           <Route element={<AdminLayout />}>
-            <Route path="/dashboard" element={<AdminDashboard />} />
+            <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/product-list" element={<ProductTable />} />
             <Route path="/user-list" element={<UserTable />} />
             <Route path="/order-list" element={<OrderList />} />

@@ -19,7 +19,15 @@ export const userApi = createApi({
       }),
       invalidatesTags: ["User"],
     }),
+    getDashboardStats: builder.query({
+      query: () => "/dashboard-stats",
+      providesTags: ["User"],
+    }),
   }),
 });
 
-export const { useGetUsersQuery, useDeleteUserMutation } = userApi;
+export const {
+  useGetUsersQuery,
+  useDeleteUserMutation,
+  useGetDashboardStatsQuery,
+} = userApi;

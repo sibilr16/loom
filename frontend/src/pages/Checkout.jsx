@@ -71,8 +71,13 @@ function Checkout() {
         order_id: data.order_id,
         // image: "/logo.png",
         handler: async function (output) {
-          const response = await verifyPayment(output);
-          console.log(response);
+          await verifyPayment({
+            ...output,
+            cartItems: cartItems.items,
+            totalAmount: cartTotal,
+          }).unwrap();
+
+          navigate("/orders");
         },
         theme: {
           color: "#3399cc",
