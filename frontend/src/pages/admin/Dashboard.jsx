@@ -85,18 +85,22 @@ function Dashboard() {
         <StatCard
           icon={ShoppingBag}
           label="Total Orders"
-          value="—"
-          sub="Coming soon"
+          value={stats?.totalOrders ?? "—"}
+          sub="All time orders"
           color={{ bg: "bg-amber-50", text: "text-amber-500" }}
           loading={false}
         />
         <StatCard
           icon={IndianRupee}
           label="Total Revenue"
-          value="—"
-          sub="Coming soon"
+          value={
+            stats?.totalRevenue
+              ? `₹${stats.totalRevenue.toLocaleString("en-IN")}`
+              : "—"
+          }
+          sub="From paid orders only"
           color={{ bg: "bg-emerald-50", text: "text-emerald-500" }}
-          loading={false}
+          loading={isLoading}
         />
       </div>
 
