@@ -1,4 +1,6 @@
 import { validatePaymentVerification } from "razorpay/dist/utils/razorpay-utils.js";
+import Cart from "../models/cart.schema.js";
+import Order from "../models/order.schema.js";
 
 async function verifyPaymentHandler(req, res) {
   // const { razorpay_payment_id, razorpay_order_id, razorpay_signature } =
