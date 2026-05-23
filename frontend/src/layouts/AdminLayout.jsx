@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { FaArrowRightArrowLeft } from "react-icons/fa6";
 import { GiHamburgerMenu } from "react-icons/gi";
 import {
@@ -10,6 +10,7 @@ import { LuLogOut, LuUsers } from "react-icons/lu";
 import { BsBagDash } from "react-icons/bs";
 import { IoClose } from "react-icons/io5";
 import { ChevronsLeft, ChevronsRight, ShoppingBag } from "lucide-react";
+import { useLogoutMutation } from "../services/auth";
 
 const navLinkClass = ({ isActive }) =>
   `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors duration-150 ${
@@ -21,6 +22,17 @@ const navLinkClass = ({ isActive }) =>
 function AdminLayout() {
   const [isOpen, setIsOpen] = useState(true);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const [logout] = useLogoutMutation();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await logout().unwrap();
+      navigate("/admin/login");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="flex h-screen bg-gray-50">
@@ -79,10 +91,13 @@ function AdminLayout() {
 
           <div className="my-1 border-t border-gray-100" />
 
-          <NavLink to="/logout" className={navLinkClass}>
-            <LuLogOut size={18} className="shrink-0 text-red-700" />
-            {isOpen && <span className="text-red-700">Logout</span>}
-          </NavLink>
+          <button
+            onClick={handleLogout}
+            className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors duration-150 text-red-400 hover:bg-red-50 w-full cursor-pointer"
+          >
+            <LuLogOut size={18} className="shrink-0" />
+            {isOpen && <span>Logout</span>}
+          </button>
         </nav>
       </aside>
 

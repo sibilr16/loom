@@ -14,17 +14,17 @@ function AdminLogin() {
     e.preventDefault();
     try {
       const res = await adminLogin({
-        email: email,
-        password: password,
+        email,
+        password,
       }).unwrap();
+      toast.success("Login Success");
+      navigate("/dashboard");
 
       console.log(res);
     } catch (error) {
       console.log(error);
+      toast.error("Invalid email or password");
     }
-
-    toast.success("Login Success");
-    navigate("/dashboard");
   };
 
   return (
