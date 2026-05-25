@@ -6,21 +6,28 @@ import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { openAuth } from "../features/uiSlice";
 import BreadCrumb from "../components/BreadCrumb.jsx";
+import Loader from "../components/Loader.jsx";
 
 function ProductDetails() {
   const [selectedSize, setSelectedSize] = useState(null);
+  const [activeImage, setActiveImage] = useState(null);
   const { id } = useParams();
   const { data: product, isLoading } = useGetProductByIdQuery(id);
-  const [addToCart] = useAddToCartMutation();
+  const [addToCart, { isLoading: isAdding }] = useAddToCartMutation();
   const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
-  console.log(user);
-  const sizes = ["S", "M", "L", "XL", "2XL"];
 
   const handleAddToCart = async (e) => {
     e.preventDefault();
+
     if (!user) {
       dispatch(openAuth());
+      return;
+    }
+
+    if (!selectedSize) {
+      toast.error("Please select a size");
+      return;
     }
 
     const cartData = {
@@ -30,87 +37,150 @@ function ProductDetails() {
       quantity: 1,
     };
 
-    const response = await addToCart(cartData).unwrap();
+    await addToCart(cartData).unwrap();
     toast.success("Added to cart");
-    console.log(response);
   };
 
+  if (isLoading)
+    return (
+      <div className="flex justify-center py-32">
+        <Loader size="xl" />
+      </div>
+    );
+
+  if (!product) return null;
+
+  const mainImage = activeImage ?? product.thumbnail;
+  const allImages = [product.thumbnail, ...(product.gallery ?? [])];
+
+  const availableSizes =
+    product.variants?.filter((v) => v.count > 0).map((v) => v.size) ?? [];
+
   return (
-    <div>
-      {isLoading ? (
-        <p>Loading....</p>
-      ) : (
-        <div>
-          {product && (
-            <div>
-              <BreadCrumb product={product} />
-              <div className="flex flex-col md:flex-row md:gap-4  p-4 max-w-5xl mx-auto ">
-                {/* Left side */}
-                <div className="max-w-lg mb-4 ">
-                  {/* Thumbnail */}
-                  <div className="  mb-3 overflow-hidden rounded-md">
-                    <img
-                      src={`https://loom-h6m8.onrender.com/uploads/${product.thumbnail}`}
-                      alt=""
-                    />
-                  </div>
-                  {/* Gallery */}
-                  <div className="grid grid-cols-4 gap-2">
-                    {product.gallery.map((img) => (
-                      <div key={img}>
-                        <img
-                          src={`https://loom-h6m8.onrender.com/uploads/${img}`}
-                        />
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                {/* Right Side */}
-                <div className="max-w-lg w-full">
-                  <div className="flex justify-between">
-                    <div className="flex flex-col">
-                      <h1 className="text-gray-900 uppercase">
-                        {product.productName}
-                      </h1>
-                      <p className="text-gray-600 text-sm mb-4">
-                        <span className="text-sm">Category: </span>
-                        {product.category}
-                      </p>
-                    </div>
-                    <div>
-                      <p>{`RS: ${product.price}`}</p>
-                    </div>
-                  </div>
-                  {/* Size */}
-                  <div className="bg-gray-200 p-2 mb-3 rounded-lg">
-                    <p className="text-gray-800 text-sm mb-2">Choose Size</p>
-                    <ul className="flex cursor-pointer mb-2 gap-2 justify-between text-gray-900 text-sm text-center">
-                      {sizes.map((size) => (
-                        <li
-                          onClick={() => setSelectedSize(size)}
-                          key={size}
-                          className={` ${selectedSize === size ? "bg-gray-950  text-gray-50" : "bg-white"}  border w-full  rounded-sm`}
-                        >
-                          {size}
-                        </li>
-                      ))}
-                    </ul>
-                    <button
-                      className={`w-full cursor-pointer ${selectedSize ? "bg-gray-950" : "bg-gray-600 text-white"}  text-gray-50 text-sm py-2 rounded-sm`}
-                      type="button"
-                      onClick={handleAddToCart}
-                    >
-                      {selectedSize ? "Add to cart" : "Choose Size"}
-                    </button>
-                  </div>
-                  <h2 className="text-lg mb-2 text-gray-800">Description</h2>
-                  <p className="text-sm text-gray-800">{product.description}</p>
-                </div>
-              </div>
+    <div className="max-w-5xl mx-auto px-4 py-8">
+      <BreadCrumb product={product} />
+
+      <div className="flex flex-col md:flex-row gap-8 mt-4">
+        {/* Left — Images */}
+        <div className="md:w-1/2 flex flex-col gap-3">
+          {/* Main image */}
+          <div className="w-full aspect-[3/4] overflow-hidden rounded-2xl bg-gray-100">
+            <img
+              src={`https://loom-h6m8.onrender.com/uploads/${mainImage}`}
+              alt={product.productName}
+              className="w-full h-full object-cover"
+            />
+          </div>
+
+          {/* Gallery thumbnails */}
+          {allImages.length > 1 && (
+            <div className="grid grid-cols-5 gap-2">
+              {allImages.map((img, i) => (
+                <button
+                  key={i}
+                  onClick={() => setActiveImage(img)}
+                  className={`aspect-square overflow-hidden rounded-lg border-2 transition-colors cursor-pointer ${
+                    mainImage === img
+                      ? "border-gray-900"
+                      : "border-transparent hover:border-gray-300"
+                  }`}
+                >
+                  <img
+                    src={`https://loom-h6m8.onrender.com/uploads/${img}`}
+                    alt=""
+                    className="w-full h-full object-cover"
+                  />
+                </button>
+              ))}
             </div>
           )}
         </div>
-      )}
+
+        {/* Right — Details */}
+        <div className="md:w-1/2 flex flex-col gap-5">
+          {/* Name + price */}
+          <div>
+            <p className="text-xs text-gray-400 uppercase tracking-widest mb-1 capitalize">
+              {product.category}
+            </p>
+            <h1 className="text-xl font-semibold text-gray-900 uppercase tracking-wide">
+              {product.productName}
+            </h1>
+            <p className="text-lg font-bold text-gray-900 mt-2">
+              ₹{product.price}
+            </p>
+          </div>
+
+          <div className="h-px bg-gray-100" />
+
+          {/* Size selector */}
+          <div>
+            <p className="text-xs font-medium text-gray-600 mb-2 uppercase tracking-wider">
+              Select Size
+              {selectedSize && (
+                <span className="ml-2 text-gray-900 font-bold">
+                  {selectedSize}
+                </span>
+              )}
+            </p>
+            <div className="flex gap-2 flex-wrap">
+              {product.variants?.map((variant) => {
+                const outOfStock = variant.count === 0;
+                return (
+                  <button
+                    key={variant.size}
+                    onClick={() => !outOfStock && setSelectedSize(variant.size)}
+                    disabled={outOfStock}
+                    className={`w-12 h-10 rounded-lg text-xs font-medium border transition-all cursor-pointer
+                      ${
+                        outOfStock
+                          ? "border-gray-100 text-gray-300 bg-gray-50 cursor-not-allowed line-through"
+                          : selectedSize === variant.size
+                            ? "bg-gray-900 text-white border-gray-900"
+                            : "bg-white text-gray-700 border-gray-300 hover:border-gray-900"
+                      }`}
+                  >
+                    {variant.size}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Add to cart */}
+          <button
+            type="button"
+            onClick={handleAddToCart}
+            disabled={isAdding}
+            className={`w-full py-3 rounded-xl text-sm font-semibold tracking-wider uppercase transition-colors cursor-pointer
+              ${
+                selectedSize
+                  ? "bg-gray-900 text-white hover:bg-gray-700"
+                  : "bg-gray-100 text-gray-400 cursor-not-allowed"
+              }`}
+          >
+            {isAdding
+              ? "Adding..."
+              : selectedSize
+                ? "Add to Cart"
+                : "Select a Size"}
+          </button>
+
+          <div className="h-px bg-gray-100" />
+
+          {/* Description */}
+          {product.description && (
+            <div>
+              <p className="text-xs font-medium text-gray-600 uppercase tracking-wider mb-2">
+                Description
+              </p>
+              <p className="text-sm text-gray-600 leading-relaxed">
+                {product.description}
+              </p>
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 }

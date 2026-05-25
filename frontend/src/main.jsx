@@ -11,19 +11,17 @@ import Products from "./pages/Products.jsx";
 import ProductDetails from "./pages/ProductDetails.jsx";
 import AuthModal from "./components/AuthModal.jsx";
 import Layout from "./Layout.jsx";
-import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import Profile from "./pages/Profile.jsx";
 import ProductTable from "./pages/admin/ProductTable.jsx";
 import Checkout from "./pages/Checkout.jsx";
-import ProfileProtection from "./components/ProfileProtection.jsx";
 import AdminLogin from "./pages/admin/AdminLogin.jsx";
 import AdminLayout from "./layouts/AdminLayout.jsx";
-import AdminDashboard from "./pages/admin/AdminDashboard.jsx";
-import OrderList from "./pages/admin/OrderList.jsx";
 import UserTable from "./pages/admin/UserTable.jsx";
 import Dashboard from "./pages/admin/Dashboard.jsx";
 import MyOrders from "./pages/MyOrders.jsx";
 import OrderTable from "./pages/admin/OrderTable.jsx";
+import ProtectedRoute from "./components/ProtectedRoute.jsx";
+import AdminProtectedRoute from "./components/AdminProtectedRoute.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -35,19 +33,23 @@ createRoot(document.getElementById("root")).render(
           <Route element={<Layout />}>
             <Route index path="/" element={<Products />} />
             <Route path="/product/:category/:id" element={<ProductDetails />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/orders" element={<MyOrders />} />
-            <Route path="/checkout" element={<Checkout />} />
             <Route
               path="/complete-profile"
               element={<CompleteProfileModal />}
             />
           </Route>
-          <Route element={<AdminLayout />}>
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/product-list" element={<ProductTable />} />
-            <Route path="/user-list" element={<UserTable />} />
-            <Route path="/admin/orders" element={<OrderTable />} />
+          <Route element={<ProtectedRoute />}>
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/orders" element={<MyOrders />} />
+            <Route path="/checkout" element={<Checkout />} />
+          </Route>
+          <Route element={<AdminProtectedRoute />}>
+            <Route element={<AdminLayout />}>
+              <Route path="/admin/dashboard" element={<Dashboard />} />
+              <Route path="/admin/products" element={<ProductTable />} />
+              <Route path="/admin/users" element={<UserTable />} />
+              <Route path="/admin/orders" element={<OrderTable />} />
+            </Route>
           </Route>
         </Routes>
       </BrowserRouter>

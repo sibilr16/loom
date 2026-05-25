@@ -1,6 +1,7 @@
 import { useGetMyOrdersQuery } from "../services/payment.js";
-import { Package, ChevronRight } from "lucide-react";
+import { Package, ChevronRight, ShoppingBag } from "lucide-react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const statusColors = {
   pending: "bg-amber-50 text-amber-600 ring-1 ring-amber-200",
@@ -10,8 +11,13 @@ const statusColors = {
   cancelled: "bg-red-50 text-red-500 ring-1 ring-red-200",
 };
 
+const statusSteps = ["confirmed", "shipped", "delivered"];
+
 function MyOrders() {
-  const { data: orders = [], isLoading } = useGetMyOrdersQuery();
+  const { data: orders = [], isLoading } = useGetMyOrdersQuery(undefined, {
+    refetchOnFocus: true, // refetch when user comes back to tab
+    refetchOnReconnect: true, // refetch when internet reconnects
+  });
   const [expanded, setExpanded] = useState(null);
 
   if (isLoading)
@@ -31,14 +37,24 @@ function MyOrders() {
         <p className="text-sm text-gray-400">
           Your orders will appear here after purchase
         </p>
+        <Link
+          to="/"
+          className="mt-2 flex items-center gap-1.5 px-4 py-2 bg-gray-900 text-white text-xs font-medium rounded-xl hover:bg-gray-700 transition-colors"
+        >
+          <ShoppingBag size={13} />
+          Start Shopping
+        </Link>
       </div>
     );
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-8 flex flex-col gap-4">
+      {/* Header */}
       <div>
         <h1 className="font-semibold text-gray-900">My Orders</h1>
-        <p className="text-xs text-gray-400 mt-0.5">{orders.length} orders</p>
+        <p className="text-xs text-gray-400 mt-0.5">
+          {orders.length} order{orders.length !== 1 ? "s" : ""}
+        </p>
       </div>
 
       {orders.map((order) => (
@@ -46,7 +62,7 @@ function MyOrders() {
           key={order._id}
           className="bg-white border border-gray-200 rounded-xl overflow-hidden"
         >
-          {/* Order header — clickable to expand */}
+          {/* Order header */}
           <button
             onClick={() =>
               setExpanded(expanded === order._id ? null : order._id)
@@ -83,9 +99,56 @@ function MyOrders() {
             </div>
           </button>
 
-          {/* Expanded items */}
+          {/* Expanded */}
           {expanded === order._id && (
             <div className="border-t border-gray-100">
+              {/* Progress tracker — only for non-cancelled orders */}
+              {order.status !== "cancelled" && order.status !== "pending" && (
+                <div className="px-4 py-4 border-b border-gray-100">
+                  <div className="flex items-center justify-between relative">
+                    {/* Progress line */}
+                    <div className="absolute left-0 right-0 top-3 h-0.5 bg-gray-100 mx-6" />
+                    <div
+                      className="absolute left-0 top-3 h-0.5 bg-gray-900 mx-6 transition-all duration-500"
+                      style={{
+                        width: `${(statusSteps.indexOf(order.status) / (statusSteps.length - 1)) * 100}%`,
+                      }}
+                    />
+                    {statusSteps.map((step) => {
+                      const isCompleted =
+                        statusSteps.indexOf(order.status) >=
+                        statusSteps.indexOf(step);
+                      return (
+                        <div
+                          key={step}
+                          className="flex flex-col items-center gap-1 z-10"
+                        >
+                          <div
+                            className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold transition-colors ${
+                              isCompleted
+                                ? "bg-gray-900 text-white"
+                                : "bg-gray-100 text-gray-400"
+                            }`}
+                          >
+                            {isCompleted ? "✓" : ""}
+                          </div>
+                          <span
+                            className={`text-[10px] capitalize ${
+                              isCompleted
+                                ? "text-gray-800 font-medium"
+                                : "text-gray-400"
+                            }`}
+                          >
+                            {step}
+                          </span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {/* Items */}
               <div className="divide-y divide-gray-50">
                 {order.items.map((item, i) => (
                   <div key={i} className="flex items-center gap-3 px-4 py-3">
@@ -109,7 +172,7 @@ function MyOrders() {
                 ))}
               </div>
 
-              {/* Order total row */}
+              {/* Total */}
               <div className="flex justify-between items-center px-4 py-3 bg-gray-50 border-t border-gray-100">
                 <span className="text-xs text-gray-500">Total</span>
                 <span className="text-xs font-bold text-gray-900">

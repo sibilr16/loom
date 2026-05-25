@@ -8,7 +8,11 @@ import { useEffect } from "react";
 import AuthModal from "./components/AuthModal";
 
 function Layout() {
-  const { data: user } = useGetMeQuery();
+  const { data: user } = useGetMeQuery(undefined, {
+    // Don't retry on 401
+    refetchOnMountOrArgChange: false,
+  });
+
   const dispatch = useDispatch();
   const isAuthOpen = useSelector((state) => state.ui.isAuthOpen);
   useEffect(() => {
@@ -18,15 +22,17 @@ function Layout() {
   }, [user, dispatch]);
 
   return (
-    <div>
+    <div className="min-h-screen flex flex-col">
       <header>
         <Navbar />
       </header>
-      <main>
+      <main className="flex-1">
         <Outlet />
         {isAuthOpen && <AuthModal />}
       </main>
-      <footer></footer>
+      <footer className="border-t border-gray-100 py-6 mt-10 text-center text-xs text-gray-400">
+        © {new Date().getFullYear()} Loom. All rights reserved.
+      </footer>
     </div>
   );
 }

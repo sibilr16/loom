@@ -1,25 +1,29 @@
 import { Link, useParams } from "react-router-dom";
-import { VscHome } from "react-icons/vsc";
-import { MdKeyboardDoubleArrowRight } from "react-icons/md";
+import { Home, ChevronRight } from "lucide-react";
 
 function BreadCrumb({ product }) {
   const { category } = useParams();
 
   return (
-    <nav className="flex gap-1 p-4 items-center text-gray-900 tracking-wide text-sm ">
-      <Link to="/">
-        <VscHome />
+    <nav className="flex items-center gap-1.5 px-4 py-3 text-xs text-gray-400 flex-wrap">
+      <Link to="/" className="hover:text-gray-700 transition-colors">
+        <Home size={13} />
       </Link>
-      <span>
-        <MdKeyboardDoubleArrowRight />
-      </span>
-      <Link className="capitalize" to={`/?category=${category}`}>
+
+      <ChevronRight size={12} className="text-gray-300" />
+
+      <Link
+        to={`/?category=${category}`}
+        className="capitalize hover:text-gray-700 transition-colors"
+      >
         {category}
       </Link>
-      <span>
-        <MdKeyboardDoubleArrowRight />
+
+      <ChevronRight size={12} className="text-gray-300" />
+
+      <span className="text-gray-600 font-medium truncate max-w-[180px] sm:max-w-xs">
+        {product.productName}
       </span>
-      <span>{product.productName}</span>
     </nav>
   );
 }

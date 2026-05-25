@@ -72,15 +72,15 @@ function AdminLayout() {
 
         {/* Nav */}
         <nav className="flex flex-col gap-1 p-2 pt-3">
-          <NavLink to="/dashboard" className={navLinkClass}>
+          <NavLink to="/admin/dashboard" className={navLinkClass}>
             <MdOutlineDashboard size={18} className="shrink-0" />
             {isOpen && <span>Dashboard</span>}
           </NavLink>
-          <NavLink to="/user-list" className={navLinkClass}>
+          <NavLink to="/admin/users" className={navLinkClass}>
             <LuUsers size={18} className="shrink-0" />
             {isOpen && <span>Users</span>}
           </NavLink>
-          <NavLink to="/product-list" className={navLinkClass}>
+          <NavLink to="/admin/products" className={navLinkClass}>
             <MdOutlineProductionQuantityLimits size={18} className="shrink-0" />
             {isOpen && <span>Products</span>}
           </NavLink>

@@ -3,6 +3,7 @@ import { useGetProductsQuery } from "../services/product";
 import { useState } from "react";
 import Carousel from "../components/Carousel";
 import Loader from "../components/Loader";
+import { PackageX } from "lucide-react";
 
 const categories = ["all", "shirts", "jeans"];
 
@@ -20,56 +21,71 @@ function Products() {
       : products.filter((product) => product.category === selectedCategory);
 
   return (
-    <div className="">
+    <div>
       <Carousel />
+
       {isLoading ? (
-        <div className="h-screen flex mt-20 justify-center">
+        <div className="flex justify-center py-32">
           <Loader size="xl" />
         </div>
       ) : (
-        <div className="h-screen md:p-5 max-w-7xl mx-auto">
-          {/* Tabs */}
-          <div className="flex md:my-8 mt-6 mb-8 items-center justify-center gap-2 md:gap-5">
+        <div className="px-4 md:px-8 max-w-7xl mx-auto pb-16">
+          {/* Category tabs */}
+          <div className="flex items-center justify-center gap-2 md:gap-3 mt-8 mb-8">
             {categories.map((category) => (
               <button
-                className={`uppercase ${selectedCategory === category ? "bg-gray-800 text-gray-50" : ""}  tracking-wide hover:bg-gray-900 transition-all duration-200 hover:text-gray-50 bg-gray-50 border text-sm cursor-pointer px-4 font-semibold rounded-lg py-1 border-gray-800`}
                 key={category}
                 onClick={() => setSelectedCategory(category)}
+                className={`uppercase tracking-widest text-xs font-semibold px-5 py-2 rounded-full border transition-all duration-200 cursor-pointer
+                  ${
+                    selectedCategory === category
+                      ? "bg-gray-900 text-white border-gray-900"
+                      : "bg-white text-gray-700 border-gray-300 hover:border-gray-900 hover:text-gray-900"
+                  }`}
               >
                 {category}
               </button>
             ))}
           </div>
 
-          {/* <div>
-            {products &&
-              products.map((product) => <div>{product.category}</div>)}
-          </div> */}
-          {/* <h1 className="font-bold text-2xl text-gray-800">Products</h1> */}
-          <div className="md:p-5 grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 md:gap-6 gap-1">
-            {" "}
-            {products &&
-              filteredProducts.map((product) => (
+          {/* Empty state */}
+          {filteredProducts.length === 0 ? (
+            <div className="flex flex-col items-center justify-center py-24 gap-3 text-center">
+              <PackageX size={32} className="text-gray-300" />
+              <p className="text-sm text-gray-500">
+                No products found in {selectedCategory}
+              </p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-6">
+              {filteredProducts.map((product) => (
                 <Link
                   to={`/product/${product.category}/${product._id}`}
-                  className="flex flex-col items-center justify-center"
                   key={product._id}
+                  className="group flex flex-col"
                 >
-                  <div className="md:h-80 md:w-56 mb-3 overflow-hidden rounded-md">
+                  {/* Image */}
+                  <div className="w-full aspect-[3/4] overflow-hidden rounded-xl bg-gray-100 mb-2">
                     <img
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       src={`https://loom-h6m8.onrender.com/uploads/${product.thumbnail}`}
                       alt={product.productName}
                     />
                   </div>
-                  <h1 className="font-semibold md:self-start pl-1 text-lg text-gray-900">
-                    {product.productName}
-                  </h1>
 
-                  <p className="md:self-start pl-1">{`RS. ${product.price} `}</p>
+                  {/* Info */}
+                  <div className="px-0.5">
+                    <p className="text-xs font-semibold text-gray-900 truncate leading-snug">
+                      {product.productName}
+                    </p>
+                    <p className="text-xs text-gray-500 mt-0.5">
+                      ₹{product.price}
+                    </p>
+                  </div>
                 </Link>
               ))}
-          </div>
+            </div>
+          )}
         </div>
       )}
     </div>
