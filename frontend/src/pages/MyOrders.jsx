@@ -1,5 +1,5 @@
 import { useGetMyOrdersQuery } from "../services/payment.js";
-import { Package, ChevronRight, ShoppingBag } from "lucide-react";
+import { Package, ChevronRight, ShoppingBag, ChevronLeft } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -48,14 +48,34 @@ function MyOrders() {
     );
 
   return (
+    // At the top of the return, before the orders list
     <div className="max-w-2xl mx-auto px-4 py-8 flex flex-col gap-4">
-      {/* Header */}
-      <div>
-        <h1 className="font-semibold text-gray-900">My Orders</h1>
-        <p className="text-xs text-gray-400 mt-0.5">
-          {orders.length} order{orders.length !== 1 ? "s" : ""}
-        </p>
+      {/* Header with back button */}
+      <div className="flex items-center gap-3">
+        <Link
+          to="/"
+          className="p-1.5 rounded-lg text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors"
+        >
+          <ChevronLeft size={16} />
+        </Link>
+        <div>
+          <h1 className="font-semibold text-gray-900">My Orders</h1>
+          <p className="text-xs text-gray-400 mt-0.5">
+            {orders.length} order{orders.length !== 1 ? "s" : ""}
+          </p>
+        </div>
       </div>
+
+      {/* Continue shopping */}
+      <Link
+        to="/"
+        className="flex items-center gap-1.5 text-xs text-gray-500 hover:text-gray-800 transition-colors self-start"
+      >
+        <ShoppingBag size={13} />
+        Continue Shopping
+      </Link>
+
+      {/* ...rest of orders map */}
 
       {orders.map((order) => (
         <div
