@@ -1,8 +1,8 @@
 export default function logoutUser(req, res) {
   res.cookie("token", "", {
     httpOnly: true,
-    secure: false,
-    sameSite: "lax",
+    secure: true,
+    sameSite: "none",
     expires: new Date(0),
   });
 
