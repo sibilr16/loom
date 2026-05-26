@@ -26,7 +26,32 @@ import AdminProtectedRoute from "./components/AdminProtectedRoute.jsx";
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <Provider store={store}>
-      <Toaster position="top-right" reverseOrder={false} />
+      <Toaster
+        position="top-right"
+        reverseOrder={false}
+        toastOptions={{
+          style: {
+            background: "#111827",
+            color: "#f9fafb",
+            fontSize: "12px",
+            fontWeight: "500",
+            borderRadius: "10px",
+            padding: "10px 14px",
+          },
+          success: {
+            iconTheme: {
+              primary: "#10b981",
+              secondary: "#111827",
+            },
+          },
+          error: {
+            iconTheme: {
+              primary: "#f87171",
+              secondary: "#111827",
+            },
+          },
+        }}
+      />{" "}
       <BrowserRouter>
         <Routes>
           <Route path="/admin/login" element={<AdminLogin />} />
